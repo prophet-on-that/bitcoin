@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 // TODO builders for ipv4 and ipv6
+// NOTE Wiki states that net_addr is 26 bytes, but is actually 30 bytes.
 struct net_addr {
     static const int ip_size = 16;
 
