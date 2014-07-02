@@ -1,46 +1,36 @@
 #include "var_int.h"
+#include <string.h>
 
 var_int::var_int (const uint64_t n)
 {
   if (n < 0xFD)
   {
     data = new char[1];
-    data[0] = (char)n & 0xFF;
-  } else if (n < 0xFFFF)
+    data[0] = n & 0xFF;
+    length = 1;
+  } 
+  else if (n < 0xFFFF)
   {
     data = new char[3];
-
-    data[0] = (char)0xFE;
-    // data[1] = (char)(n & 0xFF);
-    // data[2] = (char)((n  >> 8) & 0xFF);
+    length = 3;
+    data[0] = 0xFE;
     uint16_t value = (uint16_t)(n & 0xFFFF);
     memcpy(&data[1],&value,2);
-
-  } else if (n < 0xFFFFFFFF)
+  } 
+  else if (n < 0xFFFFFFFF)
   {
     data = new char[5];
-
-    data[0] = (char)0xFE;
-    
-  //  for (int i = 0; i < 4; i++)
-  //  {
-  //    data[i + 1] = (char)((n >> (i * 8)) & 0xFF);
-  //  }
+    length = 5;
+    data[0] = 0xFE;
     uint32_t value = (uint32_t)(n & 0xFFFFFFFF);
     memcpy(&data[1],&value,4);
-
-  } else
+  } 
+  else
   {
     data = new char[9];
-
-    data[0] = (char)0xFF;
-
-  //  for (int i = 0; i < 8; i++)
-  //  {
-  //    data[i + 1] = (char)((n >> (i * 8)) & 0xFF);
-  //  }
+    length = 9;
+    data[0] = 0xFF;
     memcpy(&data[1],&n,8);
-
   }
 }
 
@@ -52,6 +42,6 @@ var_int::var_int (const var_int &other)
 
 var_int::~var_int () 
 {
-  delete data[];
+  delete[] data;
 }
 

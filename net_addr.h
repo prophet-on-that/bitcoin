@@ -14,8 +14,7 @@ struct net_addr {
     const char ip[ip_size];
     const uint16_t port;
 
-    char *serialise () const; 
-
+    void serialise (char serial[]) const; 
 };
 
 #endif

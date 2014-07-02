@@ -2,11 +2,12 @@
 #define _VAR_INT_H_
 
 #include <stdint.h>
+#include <cstdlib>
 
 class var_int {
   //TODO: Write some kind of accessor..
 private:
-  const char* data; 
+  char* data; 
   size_t length;
 
   /* Note function must  most optimise e.g. get passed a value lower
