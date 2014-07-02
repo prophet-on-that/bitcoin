@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-// TODO copy constructor, builders for ipv4 and ipv6
+// TODO builders for ipv4 and ipv6
 struct net_addr {
     static const int ip_size = 16;
 
