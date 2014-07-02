@@ -13,8 +13,9 @@ struct var_str {
     var_str (const std::string);
     ~var_str (); /* Non-virtual, change if used polymorphically */
 
-    char *
-    serialise () const;
+    size_t size () const;
+
+    void serialise (char []) const; /* Pre: arg has sufficient size */
 };
 
 #endif

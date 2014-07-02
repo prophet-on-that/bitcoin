@@ -2,12 +2,12 @@
 #include <sys/endian.h>
 #include <cstring>
 
-char *
-net_addr::serialise () const 
+/*
+ * Pre: sizeof serial >= 30
+ */
+void
+net_addr::serialise (char serial[]) const 
 {
-  const int SIZE = 30;
-  char *serial = new char[SIZE];
-  
   // All integers serialised little-endian, except IP and port which use network
   // order (big endian)
   int offset = 0;
@@ -18,5 +18,4 @@ net_addr::serialise () const
   strncpy (serial + offset, this->ip, this->ip_size);
   offset += this->ip_size;
   serial[offset] = htobe16 (port);
-  return serial;
 }

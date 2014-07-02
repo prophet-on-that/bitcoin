@@ -39,3 +39,15 @@ var_int::var_int (const uint64_t n)
     }
   }
 }
+
+var_int::var_int (const var_int &other)
+{
+  data = new char[other.length];
+  memcpy (this->data, other.data, other.length); 
+}
+
+var_int::~var_int () 
+{
+  delete data[];
+}
+
