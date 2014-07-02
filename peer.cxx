@@ -4,6 +4,7 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <iostream>
+#include <unistd.h>
 
 using namespace std;
 
@@ -74,6 +75,7 @@ main ()
     return 3;
   }
 
-  //close (sockfd);
+  close (sockfd);
 }
+
 

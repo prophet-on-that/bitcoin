@@ -1,8 +1,8 @@
 libs = -lcrypto
 out = peer.bin
 
-header = crypto.h
-implementation = peer.cxx crypto.cxx 
+header = crypto.h net_addr.h
+implementation = peer.cxx crypto.cxx net_addr.cxx
 source = $(header) $(implementation)
 
 all:	$(source)
