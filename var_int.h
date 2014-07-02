@@ -3,18 +3,16 @@
 
 #include <stdint.h>
 
-struct var_int {
-    //TODO: Write some kind of accessor..
-    
-    const char* data; 
-
-    /* Note function must  most optimise e.g. get passed a value lower
-     * than max for uint16_t, store it as a uint16_t!
-     */
-    static var_int to_var_int (uint64_t); /* rely on implicit casting for other unsigned integer types */
-
+class var_int {
+  //TODO: Write some kind of accessor..
 private:
-    var_int () {} /* build using only above methods?? */
+  const char* data; 
+
+  /* Note function must  most optimise e.g. get passed a value lower
+   * than max for uint16_t, store it as a uint16_t!
+   */
+public:
+  var_int (const uint64_t);
 };
 
 #endif
