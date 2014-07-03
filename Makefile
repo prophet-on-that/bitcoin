@@ -5,12 +5,14 @@ SRC_DIR     	= $(.CURDIR)/src
 OBJ_DIR	    	= $(.CURDIR)/obj
 LIB_DIR	    	= $(.CURDIR)/lib
 BIN_DIR		= $(.CURDIR)/bin
+TEST_DIR	= $(.CURDIR)/test
+TOOLS_DIR	= $(.CURDIR)/tools
 
 #########################
 # Build shared library #
 #########################
 
-all:	core peer
+all:	core peer build_test run_test
 
 CORE_SRC 	= $(SRC_DIR)/core/*.cpp
 LIB_SRC  	= $(INCLUDE_DIR)/*.h
@@ -32,3 +34,22 @@ PEER_CFLAGS	= -o $(PEER_OUT)
 
 peer:	$(PEER_SRC)
 	c++ $(PEER_CFLAGS) $(PEER_SRC)
+
+###############
+# Build tests #
+###############
+
+TEST_SRC 	= $(TEST_DIR)/*.cpp
+TEST_OUT 	= $(BIN_DIR)/test.bin
+
+build_test:	$(TEST_SRC)
+	c++ -pthread -I$(TOOLS_DIR)/gtest/include -I$(INCLUDE_DIR) $(TEST_SRC) -L$(TOOLS_DIR)/gtest -L$(LIB_DIR) -lgtest -lbitcoin -Wl,-R$(LIB_DIR) -o $(TEST_OUT) 
+
+#############
+# Run tests #
+#############
+
+run_test:	
+	$(TEST_OUT)
+
+test:	build_test run_test

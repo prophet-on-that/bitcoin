@@ -1,132 +1,136 @@
 #include <iostream>
 #include <iomanip>
-#include "../var_int.h"
+#include "var_int.h"
+#include "gtest/gtest.h"
 
 using namespace std;
 
-int main() {
+void
+is_equal (vector<uchar> serial, uchar *c, int length)
+{
+  ASSERT_EQ (serial.size (), length);
+  for (int i = 0; i < length; i++)
+    EXPECT_EQ (serial[i], c[i]); 
+}
 
+TEST(var_int, zero)
+{
+  const var_int x (0);
+  uchar c = 0x0;
+  is_equal (x.serialise (), &c, 1);
+}
 
-  /* Test Case 1: 0 */
-  {
-    var_int x(0);
-    std::vector<unsigned char> v = x.serialise();
-    cout << "Test 1: " << hex << (int) v[0] << endl;
-  }
+TEST(var_int, one_byte_max)
+{
+  const var_int x (0xfc);
+  uchar c = 0xfc;
+  is_equal (x.serialise (), &c, 1);
+}
 
-  /* Test Case 2: 0xfc */
-  {
-    var_int x(0xfc);
-    std::vector<unsigned char> v = x.serialise();
-    cout << "Test 2: " << hex << setfill('0') 
-         << setw(2) << (int) v[0] << endl;
-  }
+TEST(var_int, two_byte_min)
+{
+  const var_int x (0xfd);
+  uchar c[3];
+  c[0] = 0xfd;
+  c[1] = 0xfd;
+  c[2] = 0x0;
+  is_equal (x.serialise (), c, 3);
+}
 
-  /* Test Case 3: 0xfd */
-  {
-    var_int x(0xfd);
-    std::vector<unsigned char> v = x.serialise();
-    cout << "Test 3: " << hex << setw(2) << setfill('0') 
-         << setw(2) << (int) v[0] << ' ' 
-         << setw(2) << (int) v[1] << ' ' 
-         << setw(2) << (int) v[2] << endl;
-  }
+TEST(var_int, hex_ff)
+{
+  const var_int x (0xff);
+  uchar c[3];
+  c[0] = 0xfd;
+  c[1] = 0xff;
+  c[2] = 0x0;
+  is_equal (x.serialise (), c, 3);
+}
 
-  /* Test Case 4: 0xff */
-  {
-    var_int x(0xff);
-    std::vector<unsigned char> v = x.serialise();
-    cout << "Test 4: " << hex << setw(2) << setfill('0') 
-         << setw(2) << (int) v[0] << ' ' 
-         << setw(2) << (int) v[1] << ' ' 
-         << setw(2) << (int) v[2] << endl;
-  }
+TEST(var_int, hex_1ff)
+{
+  const var_int x (0x1ff);
+  uchar c[3];
+  c[0] = 0xfd;
+  c[1] = 0xff;
+  c[2] = 0x1;
+  is_equal (x.serialise (), c, 3);
+}
 
-  /* Test Case 5: 0x1ff */
-  {
-    var_int x(0x1ff);
-    std::vector<unsigned char> v = x.serialise();
-    cout << "Test 5: " << hex << setw(2) << setfill('0') 
-         << setw(2) << (int) v[0] << ' ' 
-         << setw(2) << (int) v[1] << ' ' 
-         << setw(2) << (int) v[2] << endl;
-  }
+TEST(var_int, two_byte_max)
+{
+  const var_int x (0xffff);
+  uchar c[3];
+  c[0] = 0xfd;
+  c[1] = 0xff;
+  c[2] = 0xff;
+  is_equal (x.serialise (), c, 3);
+}
 
-  /* Test Case 6: 0xffff */
-  {
-    var_int x(0xffff);
-    std::vector<unsigned char> v = x.serialise();
-    cout << "Test 6: " << hex << setw(2) << setfill('0') 
-         << setw(2) << (int) v[0] << ' ' 
-         << setw(2) << (int) v[1] << ' ' 
-         << setw(2) << (int) v[2] << endl;
-  }
+TEST(var_int, four_byte_min)
+{
+  const var_int x (0x10000);
+  uchar c[5];
+  c[0] = 0xfe;
+  c[1] = 0x0;
+  c[2] = 0x0;
+  c[3] = 0x1;
+  c[4] = 0x0;
+  is_equal (x.serialise (), c, 5);
+}
 
-  /* Test Case 7: 0x10000 */
-  {
-    var_int x(0x10000);
-    std::vector<unsigned char> v = x.serialise();
-    cout << "Test 7: " << hex << setw(2) << setfill('0') 
-         << setw(2) << (int) v[0] << ' ' 
-         << setw(2) << (int) v[1] << ' ' 
-         << setw(2) << (int) v[2] << ' ' 
-         << setw(2) << (int) v[3] << ' ' 
-         << setw(2) << (int) v[4] << endl;
-  }
+TEST(var_int, four_byte)
+{
+  const var_int x (0x12345678);
+  uchar c[5];
+  c[0] = 0xfe;
+  c[1] = 0x78;
+  c[2] = 0x56;
+  c[3] = 0x34;
+  c[4] = 0x12;
+  is_equal (x.serialise (), c, 5);
+}
 
-  /* Test Case 8: 0x12345678 */
-  {
-    var_int x(0x12345678);
-    std::vector<unsigned char> v = x.serialise();
-    cout << "Test 8: " << hex << setw(2) << setfill('0') 
-         << setw(2) << (int) v[0] << ' ' 
-         << setw(2) << (int) v[1] << ' ' 
-         << setw(2) << (int) v[2] << ' ' 
-         << setw(2) << (int) v[3] << ' ' 
-         << setw(2) << (int) v[4] << endl;
-  }
+TEST(var_int, four_byte_max)
+{
+  const var_int x (0xffffffff);
+  uchar c[5];
+  c[0] = 0xfe;
+  c[1] = 0xff;
+  c[2] = 0xff;
+  c[3] = 0xff;
+  c[4] = 0xff;
+  is_equal (x.serialise (), c, 5);
+}
 
-  /* Test Case 9: 0xffffffff */
-  {
-    var_int x(0xffffffff);
-    std::vector<unsigned char> v = x.serialise();
-    cout << "Test 9: " << hex << setw(2) << setfill('0') 
-         << setw(2) << (int) v[0] << ' ' 
-         << setw(2) << (int) v[1] << ' ' 
-         << setw(2) << (int) v[2] << ' ' 
-         << setw(2) << (int) v[3] << ' ' 
-         << setw(2) << (int) v[4] << endl;
-  }
+TEST(var_int, eight_byte_min)
+{
+  const var_int x (0x100000000);
+  uchar c[9];
+  c[0] = 0xff;
+  c[1] = 0x0;
+  c[2] = 0x0;
+  c[3] = 0x0;
+  c[4] = 0x0;
+  c[5] = 0x1;
+  c[6] = 0x0;
+  c[7] = 0x0;
+  c[8] = 0x0;
+  is_equal (x.serialise (), c, 9);
+}
 
-  /* Test Case 10: 0x100000000 */
-  {
-    var_int x(0x100000000);
-    std::vector<unsigned char> v = x.serialise();
-    cout << "Test 10: " << hex << setw(2) << setfill('0') 
-         << setw(2) << (int) v[0] << ' ' 
-         << setw(2) << (int) v[1] << ' ' 
-         << setw(2) << (int) v[2] << ' ' 
-         << setw(2) << (int) v[3] << ' ' 
-         << setw(2) << (int) v[4] << ' ' 
-         << setw(2) << (int) v[5] << ' ' 
-         << setw(2) << (int) v[6] << ' ' 
-         << setw(2) << (int) v[7] << ' ' 
-         << setw(2) << (int) v[8] << endl;
-  }
-
-  /* Test Case 10: 0xffffffffffffffff */
-  {
-    var_int x(0xffffffffffffffff);
-    std::vector<unsigned char> v = x.serialise();
-    cout << "Test 11: " << hex << setw(2) << setfill('0') 
-         << setw(2) << (int) v[0] << ' ' 
-         << setw(2) << (int) v[1] << ' ' 
-         << setw(2) << (int) v[2] << ' ' 
-         << setw(2) << (int) v[3] << ' ' 
-         << setw(2) << (int) v[4] << ' ' 
-         << setw(2) << (int) v[5] << ' ' 
-         << setw(2) << (int) v[6] << ' ' 
-         << setw(2) << (int) v[7] << ' ' 
-         << setw(2) << (int) v[8] << endl;
-  }
+TEST(var_int, eight_byte_max)
+{
+  const var_int x (0xffffffffffffffff);
+  uchar c[9];
+  c[0] = 0xff;
+  c[1] = 0xff;
+  c[2] = 0xff;
+  c[3] = 0xff;
+  c[4] = 0xff;
+  c[5] = 0xff;
+  c[6] = 0xff;
+  c[7] = 0xff;
+  c[8] = 0xff;
+  is_equal (x.serialise (), c, 9);
 }

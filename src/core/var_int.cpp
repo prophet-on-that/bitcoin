@@ -2,6 +2,9 @@
 #include <string.h>
 
 #include <iostream>
+#include <algorithm>
+
+using namespace std;
 
 var_int::var_int (const uint64_t n)
 {
@@ -34,8 +37,9 @@ std::vector<uchar> var_int::serialise() const {
         case 5: buff.push_back(0xFE); break;
         case 9: buff.push_back(0xFF); break;
     }
-        
-    for (unsigned int i = 0; i < length; i++) {
+
+    int size = max (1UL, length - 1);
+    for (unsigned int i = 0; i < size; i++) {
         uchar c = (data & (0xFFULL << (8 * i))) >> (8 * i);
         buff.push_back(c);
     }
