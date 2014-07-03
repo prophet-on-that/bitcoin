@@ -7,7 +7,7 @@
 #include "typedefs.h"
 #include "serialisable.h"
 
-class var_int : serialisable {
+class var_int : public serialisable {
 private:
   uint64_t data; 
   size_t length;

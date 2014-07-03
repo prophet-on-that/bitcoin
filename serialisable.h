@@ -6,6 +6,7 @@
 
 class serialisable 
 {
+public:
   virtual std::vector<uchar> serialise () const = 0;
 };
 
