@@ -6,9 +6,6 @@
 #include <vector>
 
 class var_int {
-  //TODO: Write some kind of accessor..
-  //TODO: USE vector<char>?
-  //TODO: Store as uint64_t, convert to weird format on serialisation 
 private:
   uint64_t data; 
   size_t length;
