@@ -1,12 +1,35 @@
-libs = -lcrypto
-out = peer.bin
+# NOTE this is not GNU Make, but FreeBSD Make. Not compatible!
 
-header = crypto.h net_addr.h var_int.h var_str.h
-implementation = peer.cxx crypto.cxx net_addr.cxx var_int.cxx var_str.cxx
-source = $(header) $(implementation)
+INCLUDE_DIR 	= $(.CURDIR)/include
+SRC_DIR     	= $(.CURDIR)/src
+OBJ_DIR	    	= $(.CURDIR)/obj
+LIB_DIR	    	= $(.CURDIR)/lib
+BIN_DIR		= $(.CURDIR)/bin
 
-all:	$(source)
-	c++ -o $(out) $(libs) $(implementation)
+#########################
+# Build shared library #
+#########################
 
-debug:	$(source)
-	c++ -g -o $(out) $(libs) $(implementation)
+all:	core peer
+
+CORE_SRC 	= $(SRC_DIR)/core/*.cpp
+LIB_SRC  	= $(INCLUDE_DIR)/*.h
+
+LIB_OUT		= $(LIB_DIR)/libbitcoin.so
+LIB_CFLAGS 	= -Wall -shared -fPIC -o $(LIB_OUT) -lcrypto -I$(INCLUDE_DIR)
+
+core: 	$(CORE_SRC) $(LIB_SRC)
+	c++ $(LIB_CFLAGS) $(CORE_SRC)
+
+##############
+# Build peer #
+##############
+
+PEER_SRC 	= $(SRC_DIR)/peer/*.cpp
+
+PEER_OUT	= $(BIN_DIR)/peer.bin
+PEER_CFLAGS	= -o $(PEER_OUT)
+
+peer:	$(PEER_SRC)
+	echo $(PEER_SRC)
+	c++ $(PEER_CFLAGS) $(PEER_SRC)
