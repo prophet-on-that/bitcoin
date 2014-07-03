@@ -31,5 +31,4 @@ PEER_OUT	= $(BIN_DIR)/peer.bin
 PEER_CFLAGS	= -o $(PEER_OUT)
 
 peer:	$(PEER_SRC)
-	echo $(PEER_SRC)
 	c++ $(PEER_CFLAGS) $(PEER_SRC)
