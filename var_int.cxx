@@ -26,8 +26,8 @@ var_int::var_int (const var_int &other)
 
 var_int::~var_int () {}
 
-std::vector<unsigned char> var_int::serialise() {
-    std::vector<unsigned char> buff;
+std::vector<uchar> var_int::serialise() const {
+    std::vector<uchar> buff;
 
     switch (length) {
         case 3: buff.push_back(0xFD); break;
@@ -36,7 +36,7 @@ std::vector<unsigned char> var_int::serialise() {
     }
         
     for (unsigned int i = 0; i < length; i++) {
-        unsigned char c = (data & (0xFFULL << (8 * i))) >> (8 * i);
+        uchar c = (data & (0xFFULL << (8 * i))) >> (8 * i);
         buff.push_back(c);
     }
 

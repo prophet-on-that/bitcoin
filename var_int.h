@@ -4,8 +4,10 @@
 #include <stdint.h>
 #include <cstdlib>
 #include <vector>
+#include "typedefs.h"
+#include "serialisable.h"
 
-class var_int {
+class var_int : serialisable {
 private:
   uint64_t data; 
   size_t length;
@@ -17,7 +19,7 @@ public:
   var_int (const uint64_t);
   var_int (const var_int &other);
 
-  std::vector<unsigned char> serialise();
+  std::vector<uchar> serialise() const;
 
   ~var_int ();
 };
