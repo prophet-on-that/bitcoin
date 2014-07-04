@@ -2,12 +2,11 @@
 #define _SERIALISABLE_H
 
 #include <vector>
-#include "typedefs.h"
 
 class serialisable 
 {
 public:
-  virtual std::vector<uchar> serialise () const = 0;
+  virtual std::vector<uint8_t> serialise () const = 0;
 };
 
 #endif

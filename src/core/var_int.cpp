@@ -29,8 +29,8 @@ var_int::var_int (const var_int &other)
 
 var_int::~var_int () {}
 
-std::vector<uchar> var_int::serialise() const {
-    std::vector<uchar> buff;
+std::vector<uint8_t> var_int::serialise() const {
+    std::vector<uint8_t> buff;
 
     switch (length) {
         case 3: buff.push_back(0xFD); break;
@@ -40,7 +40,7 @@ std::vector<uchar> var_int::serialise() const {
 
     int size = max (1UL, length - 1);
     for (unsigned int i = 0; i < size; i++) {
-        uchar c = (data & (0xFFULL << (8 * i))) >> (8 * i);
+        uint8_t c = (data & (0xFFULL << (8 * i))) >> (8 * i);
         buff.push_back(c);
     }
 

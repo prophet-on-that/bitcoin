@@ -3,16 +3,16 @@
 #include <cstring>
 #include <vector>
 
-std::vector<uchar>
+std::vector<uint8_t>
 net_addr::serialise () const 
 {
   // All integers serialised little-endian, except IP and port which use network
   // order (big endian)
   int length = 30;
 
-  // Build serialised representation first in uchar buffer, then return as
+  // Build serialised representation first in uint8_t buffer, then return as
   // vector
-  uchar buffer[length];
+  uint8_t buffer[length];
   int offset = 0;
 
   uint32_t time = htole32 (time);
@@ -29,5 +29,5 @@ net_addr::serialise () const
   uint16_t port = htobe16 (port);
   memcpy (buffer + offset, &port, sizeof (uint16_t));
 
-  return std::vector<uchar> (buffer, buffer + length);
+  return std::vector<uint8_t> (buffer, buffer + length);
 }

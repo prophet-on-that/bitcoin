@@ -17,7 +17,7 @@ struct net_addr : public serialisable {
     char ip[ip_size];
     uint16_t port;
 
-    std::vector<uchar> serialise () const; 
+    std::vector<uint8_t> serialise () const; 
 };
 
 #endif

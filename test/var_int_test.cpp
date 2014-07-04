@@ -6,7 +6,7 @@
 using namespace std;
 
 void
-is_equal (vector<uchar> serial, uchar *c, int length)
+is_equal (vector<uint8_t> serial, uint8_t *c, int length)
 {
   ASSERT_EQ (serial.size (), length);
   for (int i = 0; i < length; i++)
@@ -16,21 +16,21 @@ is_equal (vector<uchar> serial, uchar *c, int length)
 TEST(var_int, zero)
 {
   const var_int x (0);
-  uchar c = 0x0;
+  uint8_t c = 0x0;
   is_equal (x.serialise (), &c, 1);
 }
 
 TEST(var_int, one_byte_max)
 {
   const var_int x (0xfc);
-  uchar c = 0xfc;
+  uint8_t c = 0xfc;
   is_equal (x.serialise (), &c, 1);
 }
 
 TEST(var_int, two_byte_min)
 {
   const var_int x (0xfd);
-  uchar c[3];
+  uint8_t c[3];
   c[0] = 0xfd;
   c[1] = 0xfd;
   c[2] = 0x0;
@@ -40,7 +40,7 @@ TEST(var_int, two_byte_min)
 TEST(var_int, hex_ff)
 {
   const var_int x (0xff);
-  uchar c[3];
+  uint8_t c[3];
   c[0] = 0xfd;
   c[1] = 0xff;
   c[2] = 0x0;
@@ -50,7 +50,7 @@ TEST(var_int, hex_ff)
 TEST(var_int, hex_1ff)
 {
   const var_int x (0x1ff);
-  uchar c[3];
+  uint8_t c[3];
   c[0] = 0xfd;
   c[1] = 0xff;
   c[2] = 0x1;
@@ -60,7 +60,7 @@ TEST(var_int, hex_1ff)
 TEST(var_int, two_byte_max)
 {
   const var_int x (0xffff);
-  uchar c[3];
+  uint8_t c[3];
   c[0] = 0xfd;
   c[1] = 0xff;
   c[2] = 0xff;
@@ -70,7 +70,7 @@ TEST(var_int, two_byte_max)
 TEST(var_int, four_byte_min)
 {
   const var_int x (0x10000);
-  uchar c[5];
+  uint8_t c[5];
   c[0] = 0xfe;
   c[1] = 0x0;
   c[2] = 0x0;
@@ -82,7 +82,7 @@ TEST(var_int, four_byte_min)
 TEST(var_int, four_byte)
 {
   const var_int x (0x12345678);
-  uchar c[5];
+  uint8_t c[5];
   c[0] = 0xfe;
   c[1] = 0x78;
   c[2] = 0x56;
@@ -94,7 +94,7 @@ TEST(var_int, four_byte)
 TEST(var_int, four_byte_max)
 {
   const var_int x (0xffffffff);
-  uchar c[5];
+  uint8_t c[5];
   c[0] = 0xfe;
   c[1] = 0xff;
   c[2] = 0xff;
@@ -106,7 +106,7 @@ TEST(var_int, four_byte_max)
 TEST(var_int, eight_byte_min)
 {
   const var_int x (0x100000000);
-  uchar c[9];
+  uint8_t c[9];
   c[0] = 0xff;
   c[1] = 0x0;
   c[2] = 0x0;
@@ -122,7 +122,7 @@ TEST(var_int, eight_byte_min)
 TEST(var_int, eight_byte_max)
 {
   const var_int x (0xffffffffffffffff);
-  uchar c[9];
+  uint8_t c[9];
   c[0] = 0xff;
   c[1] = 0xff;
   c[2] = 0xff;
