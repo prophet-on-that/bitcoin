@@ -7,13 +7,13 @@
 
 class net_addr : public serialisable 
 {
-private:
-  static const int ip_size = 16;
+public:
+  static const int ipv6_size = 16;
 
+private:
   uint32_t time; 
   uint64_t services; 
-  // Assume this is in network byte order
-  uint8_t ip[ip_size];
+  uint8_t ip[ipv6_size]; // Network byte order (big endian)
   uint16_t port;
 
   net_addr () {};
@@ -22,7 +22,9 @@ public:
   std::vector<uint8_t> serialise () const; 
 
   static net_addr build_v4 (uint32_t time, uint64_t services, uint32_t ip, uint16_t port);
-  static net_addr build_v6 (uint32_t time, uint64_t services, uint8_t ip[ip_size], uint16_t port);
+
+  // Pre: ip stored in network byte order
+  static net_addr build_v6 (uint32_t time, uint64_t services, uint8_t ip[ipv6_size], uint16_t port);
 
 };
 

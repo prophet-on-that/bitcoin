@@ -18,7 +18,7 @@ CORE_SRC 	= $(SRC_DIR)/core/*.cpp
 LIB_SRC  	= $(INCLUDE_DIR)/*.h
 
 LIB_OUT		= $(LIB_DIR)/libbitcoin.so
-LIB_CFLAGS 	= -Wall -shared -fPIC -o $(LIB_OUT) -lcrypto -I$(INCLUDE_DIR)
+LIB_CFLAGS 	= -g -Wall -shared -fPIC -o $(LIB_OUT) -lcrypto -I$(INCLUDE_DIR)
 
 core: 	$(CORE_SRC) $(LIB_SRC)
 	c++ $(LIB_CFLAGS) $(CORE_SRC)

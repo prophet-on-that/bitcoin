@@ -6,8 +6,8 @@ using namespace std;
 void
 is_equal (const vector<uint8_t> serial, const uint8_t *c, const int length)
 {
-  ASSERT_EQ (length, serial.size ());
+  ASSERT_EQ (length, serial.size ()) << "Length check failed!";
   for (int i = 0; i < length; i++)
-    EXPECT_EQ (c[i], serial[i]); 
+    EXPECT_EQ (c[i], serial[i]) << "Content check failed. i = " << i;
 }
 
