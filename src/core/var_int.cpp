@@ -21,8 +21,8 @@ var_int::var_int (const uint64_t n)
     }
 }
 
-std::vector<uint8_t> var_int::serialise() const {
-    std::vector<uint8_t> buff;
+vector<uint8_t> var_int::serialise() const {
+    vector<uint8_t> buff;
 
     switch (length) {
         case 3: buff.push_back(0xFD); break;

@@ -4,18 +4,11 @@
 #include "var_int.h"
 #include <string>
 
-struct var_str {
-    //TODO: Write some kind of accessor..
+struct var_str : public serialisable {
+    const std::string str;
 
-    const var_int length;
-    char* str; /* NOT null-terminated */
-
-    var_str (const std::string);
-    ~var_str (); /* Non-virtual, change if used polymorphically */
-
-    size_t size () const;
-
-    void serialise (char []) const; /* Pre: arg has sufficient size */
+    var_str (const std::string str) : str (str) {}
+    std::vector<uint8_t> serialise() const;
 };
 
 #endif

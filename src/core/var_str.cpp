@@ -2,14 +2,14 @@
 
 using namespace std;
 
-var_str::var_str (const string str)
-  : length (var_int (str.length ()))
+vector<uint8_t> 
+var_str::serialise() const
 {
-  this->str = new char[str.length ()]; 
-  memcpy (this->str, str.c_str (), str.length ()); /* this avoids copying the null-termiantor */ 
-}
+  vector<uint8_t> ret = var_int (str.length ()).serialise ();
+  const char *temp = str.c_str ();
 
-var_str::~var_str ()
-{
-  delete[] str;
+  // No null-terminator
+  ret.insert (ret.end (), temp, temp + str.length ());
+
+  return ret;
 }
