@@ -12,7 +12,12 @@ TOOLS_DIR	= $(.CURDIR)/tools
 # Build shared library #
 #########################
 
-all:	core peer build_test run_test
+all:	setup core peer build_test run_test
+
+setup:
+	if [ ! -d "lib" ]; then mkdir lib; fi
+	if [ ! -d "bin" ]; then mkdir bin; fi
+	if [ ! -d "obj" ]; then mkdir obj; fi
 
 CORE_SRC 	= $(SRC_DIR)/core/*.cpp
 LIB_SRC  	= $(INCLUDE_DIR)/*.h
