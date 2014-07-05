@@ -16,7 +16,7 @@ private:
   uint8_t ip[ip_size];
   uint16_t port;
 
-  net_addr ();
+  net_addr () {};
 
 public:
   std::vector<uint8_t> serialise () const; 
