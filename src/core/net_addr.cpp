@@ -2,8 +2,11 @@
 #include <sys/endian.h>
 #include <cstring>
 #include <vector>
+#include <algorithm>
 
-std::vector<uint8_t>
+using namespace std;
+
+vector<uint8_t>
 net_addr::serialise () const 
 {
   // All integers serialised little-endian, except IP and port which use network
@@ -30,4 +33,29 @@ net_addr::serialise () const
   memcpy (buffer + offset, &port, sizeof (uint16_t));
 
   return std::vector<uint8_t> (buffer, buffer + length);
+}
+
+net_addr 
+net_addr::build_v4 (uint32_t time, uint64_t services, uint32_t ip, uint16_t port)
+{
+  net_addr addr;
+  addr.time = time;
+  addr.services = services;
+  fill_n (addr.ip, 12, 0);
+  uint8_t *bytes = reinterpret_cast<uint8_t*> (ip);
+  copy (bytes, bytes + sizeof (uint32_t), addr.ip + 12);
+
+  return addr;
+}
+
+net_addr 
+net_addr::build_v6 (uint32_t time, uint64_t services, uint8_t ip[ip_size], uint16_t port)
+{
+  net_addr addr;
+  addr.time = time;
+  addr.services = services;
+  fill_n (addr.ip, 12, 0);
+  copy (ip, ip + ip_size, addr.ip);
+
+  return addr;  
 }
