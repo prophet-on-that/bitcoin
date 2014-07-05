@@ -16,11 +16,10 @@ private:
    */
 public:
   var_int (const uint64_t);
-  var_int (const var_int &other);
 
+  uint64_t get () const { return data; }
   std::vector<uint8_t> serialise() const;
 
-  ~var_int ();
 };
 
 #endif

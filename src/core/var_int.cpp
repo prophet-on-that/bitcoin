@@ -21,14 +21,6 @@ var_int::var_int (const uint64_t n)
     }
 }
 
-var_int::var_int (const var_int &other)
-{
-  data = other.data;
-  length = other.length;
-}
-
-var_int::~var_int () {}
-
 std::vector<uint8_t> var_int::serialise() const {
     std::vector<uint8_t> buff;
 
