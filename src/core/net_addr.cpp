@@ -42,7 +42,7 @@ net_addr::build_v4 (uint32_t time, uint64_t services, uint32_t ip, uint16_t port
   addr.time = time;
   addr.services = services;
   fill_n (addr.ip, 12, 0);
-  uint8_t *bytes = reinterpret_cast<uint8_t*> (ip);
+  uint8_t *bytes = reinterpret_cast<uint8_t*> (&ip);
   copy (bytes, bytes + sizeof (uint32_t), addr.ip + 12);
 
   return addr;
