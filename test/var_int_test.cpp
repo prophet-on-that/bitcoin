@@ -1,5 +1,3 @@
-#include <iostream>
-#include <iomanip>
 #include "var_int.h"
 #include "gtest/gtest.h"
 
