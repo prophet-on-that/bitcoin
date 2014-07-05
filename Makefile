@@ -39,10 +39,11 @@ peer:	$(PEER_SRC)
 # Build tests #
 ###############
 
+TEST_HEADER	= $(TEST_DIR)/*.h
 TEST_SRC 	= $(TEST_DIR)/*.cpp
 TEST_OUT 	= $(BIN_DIR)/test.bin
 
-build_test:	$(TEST_SRC)
+build_test:	$(TEST_SRC) $(TEST_HEADER)
 	c++ -pthread -I$(TOOLS_DIR)/gtest/include -I$(INCLUDE_DIR) $(TEST_SRC) -L$(TOOLS_DIR)/gtest -L$(LIB_DIR) -lgtest -lbitcoin -Wl,-R$(LIB_DIR) -o $(TEST_OUT) 
 
 #############

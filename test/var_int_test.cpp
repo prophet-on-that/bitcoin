@@ -1,15 +1,8 @@
 #include "var_int.h"
 #include "gtest/gtest.h"
+#include "utils.h"
 
 using namespace std;
-
-void
-is_equal (vector<uint8_t> serial, uint8_t *c, int length)
-{
-  ASSERT_EQ (serial.size (), length);
-  for (int i = 0; i < length; i++)
-    EXPECT_EQ (serial[i], c[i]); 
-}
 
 TEST(var_int, zero)
 {
