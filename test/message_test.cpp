@@ -5,41 +5,25 @@
 
 using namespace std;
 
-TEST(message, serialise)
+class message_test : public message 
 {
-    const uint32_t magic = 0x1a2b3c4d;
-    const uint32_t length = 0x4d3c2b1a;
-    const uint32_t checksum = 0x0000ffff; 
-
-    message mh; 
-    mh.magic = magic; 
-    mh.length = length; 
-    mh.checksum = checksum; 
-   
-    //Fill Commands 
-    for (int i = 0; i < message::NUM_OF_COMMANDS; i++){
-        mh.command[i] = i;
+public: 
+    static void call_build_header (std::vector<uint8_t> &v, std::string s){
+      build_header(v, s);
     }
+}; 
 
-    vector<uint8_t> buf = mh.serialise(); 
-   
-    // Check magic 
-    ASSERT_EQ(buf[0], 0x4d); ASSERT_EQ(buf[1], 0x3c);
-    ASSERT_EQ(buf[2], 0x2b); ASSERT_EQ(buf[3], 0x1a);
+TEST(message, empty)
+{
+  vector<uint8_t> empty_vector; 
+  string s = "Empty";
 
-    //Check commands 
-    ASSERT_EQ(buf[4], 0x00); ASSERT_EQ(buf[5], 0x01);
-    ASSERT_EQ(buf[6], 0x02); ASSERT_EQ(buf[7], 0x03);
-    ASSERT_EQ(buf[8], 0x04); ASSERT_EQ(buf[9], 0x05);
-    ASSERT_EQ(buf[10], 0x06); ASSERT_EQ(buf[11], 0x07);
-    ASSERT_EQ(buf[12], 0x08); ASSERT_EQ(buf[13], 0x09);
-    ASSERT_EQ(buf[14], 0x0a); ASSERT_EQ(buf[15], 0x0b);
+  message_test::call_build_header(empty_vector, s);
 
-    //Check length
-    ASSERT_EQ(buf[16], 0x1a); ASSERT_EQ(buf[17], 0x2b);
-    ASSERT_EQ(buf[18], 0x3c); ASSERT_EQ(buf[19], 0x4d);
+  uint8_t buf[] = { 0x0b , 0x11 , 0x09 , 0x07 , 0x45 , 0x6d , 0x70 , 0x74 , 0x79
+      , 0x00 , 0x00 , 0x00 , 0x00 , 0x00 , 0x00 , 0x00 , 0x00 , 0x00 , 0x00 ,
+        0x00 , 0x0e , 0x00, 0x00, 0x00};
 
-    //Check checksum
-    ASSERT_EQ(buf[20],  0xff); ASSERT_EQ(buf[21],  0xff);
-    ASSERT_EQ(buf[22],  0x00); ASSERT_EQ(buf[23],  0x00);
+  is_equal (empty_vector, buf, 24);
 }
+

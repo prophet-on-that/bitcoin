@@ -1,5 +1,6 @@
 #include "version.h"
 #include "meta.h"
+#include "utils.h"
 #include <ctime>
 #include <cstdlib>
 
@@ -14,20 +15,6 @@ version::version (const net_addr addr_recv, const net_addr addr_from,
   services = NODE_NETWORK; 
   timestamp = time (NULL);
   nonce = rand ();
-}
-
-template<typename T>
-vector<uint8_t> 
-vectorize (T data) {
-    uint8_t *bytes = reinterpret_cast<uint8_t *> (&data);
-    return vector<uint8_t>(bytes, bytes + sizeof(T));
-}
-
-template<typename T>
-void
-vectorize (T data, vector<uint8_t> &buffer) {
-    vector<uint8_t> bytes = vectorize (data);
-    buffer.insert (buffer.end (), bytes.begin (), bytes.end ());
 }
 
 std::vector<uint8_t> 

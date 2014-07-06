@@ -1,4 +1,5 @@
 #include "crypto.h"
+#include "utils.h"
 #include <openssl/sha.h>
 #include <cstring>
 #include <cstdio>
@@ -31,5 +32,7 @@ sha256 (char *string, char outputBuffer[65])
 vector<uint8_t>
 sha256 (const vector<uint8_t> &string)
 {
-  return string;
+  vector<uint8_t> stuff;
+  vectorize (14L, stuff);
+  return stuff;
 }
