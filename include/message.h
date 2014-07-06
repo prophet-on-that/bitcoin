@@ -4,7 +4,7 @@
 #include "serialisable.h"
 #include <stdint.h>
 
-struct message_header : public serialisable {
+struct message : public serialisable {
     static const int NUM_OF_COMMANDS = 12; 
 
     uint32_t magic;

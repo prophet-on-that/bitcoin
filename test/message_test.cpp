@@ -1,23 +1,23 @@
-#include "message_header.h"
+#include "message.h"
 #include "gtest/gtest.h"
 #include "utils.h"
 #include <vector> 
 
 using namespace std;
 
-TEST(message_header, serialise)
+TEST(message, serialise)
 {
     const uint32_t magic = 0x1a2b3c4d;
     const uint32_t length = 0x4d3c2b1a;
     const uint32_t checksum = 0x0000ffff; 
 
-    message_header mh; 
+    message mh; 
     mh.magic = magic; 
     mh.length = length; 
     mh.checksum = checksum; 
    
     //Fill Commands 
-    for (int i = 0; i < message_header::NUM_OF_COMMANDS; i++){
+    for (int i = 0; i < message::NUM_OF_COMMANDS; i++){
         mh.command[i] = i;
     }
 

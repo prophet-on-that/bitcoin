@@ -1,4 +1,4 @@
-#include "message_header.h"
+#include "message.h"
 #include "portable_endian.h"
 
 #include <string.h>
@@ -9,7 +9,7 @@
 
 using namespace std;
 
-vector<uint8_t> message_header::serialise() const {
+vector<uint8_t> message::serialise() const {
     int len = 24;
     
     uint8_t buffer[len];
