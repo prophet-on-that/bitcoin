@@ -7,6 +7,7 @@ class serialisable
 {
 public:
   virtual std::vector<uint8_t> serialise () const = 0;
+  virtual ~serialisable () {};
 };
 
 #endif

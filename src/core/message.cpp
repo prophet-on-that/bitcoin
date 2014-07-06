@@ -1,6 +1,7 @@
 #include "message.h"
 #include "portable_endian.h"
 #include "meta.h"
+#include "crypto.h"
 
 #include <string.h>
 
@@ -11,40 +12,29 @@
 
 using namespace std;
 
-message::message (const std::string command, const uint32_t length, const uint32_t checksum)
-  : magic (MAGIC), length (length), checksum (checksum)
+void
+message::build_header (vector<uint8_t> &payload, const std::string command)
 {
-  assert (command.length () <= NUM_OF_COMMANDS); 
+    uint32_t length = payload.size ();
+    uint32_t magic = MAGIC;
 
-  const char *str = command.c_str ();   
-
-  copy (str, str + command.length (), this->command);
-
-  /* Null pad remainder */
-  fill_n (this->command + command.length (), NUM_OF_COMMANDS - command.length (), '\0'); 
-}
-
-vector<uint8_t> message::serialise() const {
-    int len = 24;
+    const int LEN = 12;
     
-    uint8_t buffer[len];
-    int offset = 0;
+    uint8_t buffer[LEN] = {'\0'};
+    copy (command.c_str (), command.c_str () + command.length (), buffer);
 
-    uint32_t magic_le = htole32(magic); 
-    memcpy (buffer + offset, &magic_le, sizeof (uint32_t)); 
-    offset += sizeof(uint32_t);
+    vector<uint8_t> hash = sha256 (sha256 (payload)); 
 
-    memcpy (buffer + offset, command, NUM_OF_COMMANDS);
-    offset += NUM_OF_COMMANDS;
+    payload.insert (payload.begin (), hash.begin (), hash.begin () + sizeof (uint32_t));
 
     uint32_t length_le = htole32(length); 
-    memcpy (buffer + offset, &length_le, sizeof (uint32_t)); 
-    offset += sizeof(uint32_t);
+    uint8_t *length_le_bytes = reinterpret_cast<uint8_t *> (&length_le);
+    payload.insert (payload.begin (), length_le_bytes, length_le_bytes + sizeof (uint32_t));
 
-    uint32_t checksum_le = htole32(checksum); 
-    memcpy (buffer + offset, &checksum_le, sizeof (uint32_t)); 
-    offset += sizeof(uint32_t);
+    payload.insert (payload.begin (), buffer, buffer + LEN);
 
-    return std::vector<uint8_t>(buffer, buffer + len);
+    uint32_t magic_le = htole32(magic); 
+    uint8_t *magic_le_bytes = reinterpret_cast<uint8_t *> (&magic_le);
+    payload.insert (payload.begin (), magic_le_bytes, magic_le_bytes + sizeof (uint32_t));
 }
 

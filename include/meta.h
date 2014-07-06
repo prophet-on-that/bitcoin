@@ -14,4 +14,6 @@
 #define VERSION 70001 /* the protocol specification */
 #define NODE_NETWORK 1 /* a service */
 
+#define USER_AGENT "edd's client"
+
 #endif 

@@ -1,6 +1,9 @@
+#include "crypto.h"
 #include <openssl/sha.h>
 #include <cstring>
 #include <cstdio>
+
+using namespace std;
 
 /* 
  * Copied verbatim from stackoverflow:
@@ -22,4 +25,11 @@ sha256 (char *string, char outputBuffer[65])
     sprintf (outputBuffer + (i * 2), "%02x", hash[i]);
   }
   outputBuffer[64] = 0;
+}
+
+// Post: ret.size () == 32
+vector<uint8_t>
+sha256 (const vector<uint8_t> &string)
+{
+  return string;
 }
