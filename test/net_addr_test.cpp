@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "utils.h"
 #include "net_addr.h"
-#include <sys/endian.h>
+#include "portable_endian.h"
 #include <algorithm>
 
 using namespace std;

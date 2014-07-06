@@ -1,12 +1,21 @@
-# NOTE this is not GNU Make, but FreeBSD Make. Not compatible!
+## This file is now gmake, not FreeBSB make...
 
-INCLUDE_DIR 	= $(.CURDIR)/include
-SRC_DIR     	= $(.CURDIR)/src
-OBJ_DIR	    	= $(.CURDIR)/obj
-LIB_DIR	    	= $(.CURDIR)/lib
-BIN_DIR		= $(.CURDIR)/bin
-TEST_DIR	= $(.CURDIR)/test
-TOOLS_DIR	= $(.CURDIR)/tools
+## Select gtest binary depending on platform
+OS := $(shell uname)
+ifeq ($(OS), Darwin)
+	G_TEST=gtest_osx 
+else
+	G_TEST=gtest
+endif
+
+INCLUDE_DIR 	= $(CURDIR)/include
+SRC_DIR     	= $(CURDIR)/src
+OBJ_DIR	    	= $(CURDIR)/obj
+LIB_DIR	    	= $(CURDIR)/lib
+BIN_DIR		= $(CURDIR)/bin
+TEST_DIR	= $(CURDIR)/test
+TOOLS_DIR	= $(CURDIR)/tools
+
 
 #########################
 # Build shared library #
@@ -49,7 +58,7 @@ TEST_SRC 	= $(TEST_DIR)/*.cpp
 TEST_OUT 	= $(BIN_DIR)/test.bin
 
 build_test:	$(TEST_SRC) $(TEST_HEADER)
-	c++ -g -pthread -I$(TOOLS_DIR)/gtest/include -I$(INCLUDE_DIR) $(TEST_SRC) -L$(TOOLS_DIR)/gtest -L$(LIB_DIR) -lgtest -lbitcoin -Wl,-R$(LIB_DIR) -o $(TEST_OUT) 
+	c++ -g -pthread -I$(TOOLS_DIR)/gtest/include -I$(INCLUDE_DIR) $(TEST_SRC) -L$(TOOLS_DIR)/gtest -L$(LIB_DIR) -l$(G_TEST) -lbitcoin -Wl,-rpath,$(LIB_DIR) -o $(TEST_OUT) 
 
 #############
 # Run tests #

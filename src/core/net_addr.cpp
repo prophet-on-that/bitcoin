@@ -1,5 +1,5 @@
 #include "net_addr.h"
-#include <sys/endian.h>
+#include "portable_endian.h"
 #include <cstring>
 #include <vector>
 #include <algorithm>
