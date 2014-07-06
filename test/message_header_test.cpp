@@ -22,10 +22,6 @@ TEST(message_header, serialise)
     }
 
     vector<uint8_t> buf = mh.serialise(); 
-
-    for (int i = 0; i < buf.size(); i++) {
-        cout << hex << setw(2) << (int) buf[i] << endl;
-    }
    
     // Check magic 
     ASSERT_EQ(buf[0], 0x4d); ASSERT_EQ(buf[1], 0x3c);
