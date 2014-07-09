@@ -27,10 +27,12 @@ version::serialise () const
   vectorize (htole64 (timestamp), buffer);
 
   vector<uint8_t> temp = addr_recv.serialise ();
-  buffer.insert (buffer.begin (), temp.begin (), temp.end ());
+  /* We strip the time from network address for version messages */
+  buffer.insert (buffer.begin () + sizeof (uint32_t), temp.begin (), temp.end ());
 
   temp = addr_from.serialise ();
-  buffer.insert (buffer.begin (), temp.begin (), temp.end ());
+  /* We strip the time from network address for version messages */
+  buffer.insert (buffer.begin () + sizeof (uint32_t), temp.begin (), temp.end ());
 
   vectorize (htole64 (nonce), buffer);
 
