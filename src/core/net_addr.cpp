@@ -41,7 +41,8 @@ net_addr::build_v4 (uint32_t time, uint64_t services, uint32_t ip, uint16_t port
   net_addr addr;
   addr.time = time;
   addr.services = services;
-  fill_n (addr.ip, 12, 0);
+  fill_n (addr.ip, 10, 0);
+  fill_n (addr.ip + 10, 2, 0xff);
 
   uint32_t ip_be = htobe32 (ip);
   uint8_t *bytes = reinterpret_cast<uint8_t*> (&ip_be);

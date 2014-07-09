@@ -30,7 +30,8 @@ TEST (net_addr, v4_magic)
 
   uint32_t ip_be = htobe32 (ip);
   uint8_t *ip_be_bytes = reinterpret_cast<uint8_t *> (&ip_be);
-  fill_n (expected + offset, 12, 0);
+  fill_n (expected + offset, 10, 0);
+  fill_n (expected + offset + 10, 2, 0xff);
   offset += 12;
   copy (ip_be_bytes, ip_be_bytes + sizeof (ip), expected + offset);
   offset += sizeof (ip);
