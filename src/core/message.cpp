@@ -3,9 +3,6 @@
 #include "meta.h"
 #include "crypto.h"
 
-#include <string.h>
-
-#include <vector>
 #include <iostream>
 #include <algorithm>
 #include <cassert>

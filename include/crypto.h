@@ -2,6 +2,7 @@
 #define _CRYPTO_H
 
 #include <vector>
+#include <stdint.h>
 
 void
 sha256 (char *string, char outputBuffer[65]);

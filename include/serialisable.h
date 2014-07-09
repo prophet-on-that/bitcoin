@@ -2,6 +2,7 @@
 #define _SERIALISABLE_H
 
 #include <vector>
+#include <stdint.h>
 
 class serialisable 
 {

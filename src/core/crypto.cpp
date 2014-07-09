@@ -3,6 +3,7 @@
 #include <openssl/sha.h>
 #include <cstring>
 #include <cstdio>
+#include <stdint.h>
 
 using namespace std;
 

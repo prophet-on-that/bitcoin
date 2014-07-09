@@ -4,6 +4,7 @@
 #include "serialisable.h"
 #include <stdint.h>
 #include <vector>
+#include <string>
 
 class message 
 {
