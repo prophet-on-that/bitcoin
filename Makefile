@@ -5,7 +5,16 @@ OS := $(shell uname)
 ifeq ($(OS), Darwin)
 	G_TEST=gtest_osx 
 else
-	G_TEST=gtest
+  ifeq ($(OS), Linux)
+  	G_TEST=gtest_linux
+  else
+    ifeq ($(OS), FreeBSD)
+	G_TEST=gtest_freebsd
+    else 
+  	echo "Unsupported OS, aborting.."
+	exit
+    endif
+  endif
 endif
 
 INCLUDE_DIR 	= $(CURDIR)/include

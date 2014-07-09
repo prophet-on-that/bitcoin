@@ -30,7 +30,7 @@ vector<uint8_t> var_int::serialise() const {
         case 9: buff.push_back(0xFF); break;
     }
 
-    int size = max (1UL, length - 1);
+    unsigned int size = max (1UL, length - 1);
     for (unsigned int i = 0; i < size; i++) {
         uint8_t c = (data & (0xFFULL << (8 * i))) >> (8 * i);
         buff.push_back(c);
