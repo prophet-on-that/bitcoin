@@ -4,11 +4,8 @@
 #include <vector>
 #include <stdint.h>
 
-void
-sha256 (char *string, char outputBuffer[65]);
-
-// Post: ret.size () == 32
+// POST: ret.size () == 32
 std::vector<uint8_t>
-sha256 (const std::vector<uint8_t> &string);
+sha256 (const std::vector<uint8_t> &message);
 
 #endif
